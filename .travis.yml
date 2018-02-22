@@ -1,0 +1,11 @@
+# os: osx # enable this if you need macOS support
+language: ruby
+rvm:
+  - 2.2.4
+deploy:
+  provider: rubygems
+  gem: fastlane-plugin-xcconfig
+  api_key: $RUBYGEMS_API_KEY
+  on:
+    tags: true
+    repo: sovcharenko/fastlane-plugin-xcconfig

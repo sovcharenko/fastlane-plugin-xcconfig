@@ -1,0 +1,15 @@
+lane :test do
+  # Read PRODUCT_BUNDLE_IDENTIFIER value from Configs/Release.xcconfig
+  bundle_id = get_xcconfig_value(
+    path: 'fastlane/Configs/Release.xcconfig',
+    name: 'PRODUCT_BUNDLE_IDENTIFIER'
+  )
+  puts("Bundle ID: #{bundle_id}")
+
+  # Sets PRODUCT_BUNDLE_IDENTIFIER value to 'com.sovcharenko.App-beta' in Configs/Release.xcconfig
+  set_xcconfig_value(
+    path: 'fastlane/Configs/Release.xcconfig',
+    name: 'PRODUCT_BUNDLE_IDENTIFIER',
+    value: 'com.sovcharenko.App-beta'
+  )
+end
