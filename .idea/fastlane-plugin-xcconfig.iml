@@ -53,7 +53,7 @@
     <orderEntry type="library" scope="PROVIDED" name="faraday-cookie_jar (v0.0.6, rbenv: 2.3.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faraday_middleware (v0.12.2, rbenv: 2.3.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fastimage (v2.1.1, rbenv: 2.3.3) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="fastlane (v2.81.0, rbenv: 2.3.3) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fastlane (v2.82.0, rbenv: 2.3.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="gh_inspector (v1.1.2, rbenv: 2.3.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="google-api-client (v0.13.6, rbenv: 2.3.3) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="googleauth (v0.6.2, rbenv: 2.3.3) [gem]" level="application" />
