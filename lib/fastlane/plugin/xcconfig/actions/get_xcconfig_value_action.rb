@@ -35,10 +35,12 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :name,
                                        env_name: "XCCP_GET_VALUE_PARAM_NAME",
                                        description: "Name of key in xcconfig file",
+                                       type: String,
                                        optional: false),
           FastlaneCore::ConfigItem.new(key: :path,
                                        env_name: "XCCP_GET_VALUE_PARAM_PATH",
                                        description: "Path to plist file you want to update",
+                                       type: String,
                                        optional: false,
                                        verify_block: proc do |value|
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))

@@ -9,14 +9,23 @@ module Fastlane
 
         tmp_file = path + '.updated'
 
+        name = params[:name]
+
+        # Revert fastlane's auto conversion of strings into booleans
+        # https://github.com/fastlane/fastlane/pull/11923
+        value = if [true, false].include?(params[:value])
+                  params[:value] ? 'YES' : 'NO'
+                else
+                  params[:value].strip
+                end
         begin
           updated = false
 
           File.open(tmp_file, 'w') do |file|
             File.open(path).each do |line|
-              name, = Helper::XcconfigHelper.parse_xcconfig_name_value_line(line)
-              if name == params[:name]
-                file.write(name + ' = ' + params[:value] + "\n")
+              xcname, = Helper::XcconfigHelper.parse_xcconfig_name_value_line(line)
+              if xcname == name
+                file.write(name + ' = ' + value + "\n")
                 updated = true
               else
                 file.write(line)
@@ -24,7 +33,7 @@ module Fastlane
             end
           end
 
-          Fastlane::UI.user_error!("Couldn't find '#{params[:name]}' in #{params[:path]}.") unless updated
+          Fastlane::UI.user_error!("Couldn't find '#{name}' in #{path}.") unless updated
 
           FileUtils.cp(tmp_file, path)
         ensure
@@ -53,14 +62,18 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :name,
                                        env_name: "XCCP_SET_VALUE_PARAM_NAME",
                                        description: "Name of key in xcconfig file",
+                                       type: String,
                                        optional: false),
           FastlaneCore::ConfigItem.new(key: :value,
                                        env_name: "XCCP_SET_VALUE_PARAM_VALUE",
                                        description: "Value to set",
+                                       skip_type_validation: true, # skipping type validation as fastlane converts YES/NO/true/false strings into booleans
+                                       type: String,
                                        optional: false),
           FastlaneCore::ConfigItem.new(key: :path,
                                        env_name: "XCCP_SET_VALUE_PARAM_PATH",
-                                       description: "Path to plist file you want to update",
+                                       description: "Path to xcconfig file you want to update",
+                                       type: String,
                                        optional: false,
                                        verify_block: proc do |value|
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))

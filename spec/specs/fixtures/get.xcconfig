@@ -1,12 +1,21 @@
-// Should parse ok
-name1=value1
-name2[sub1=x86][sub2=os]     =    value2
-name3 = value3 // name3 = xxx
-name5 = // TODO:
-     name6       =   value  6
+// Import base application settings
+#include "../Base/Targets/Application.xcconfig"
 
-// Should not parse
-iname1
-iname//3 = value3
-iname4 value4
+EMPTY =
 
+// Architectures to build
+ARCHS = $(ARCHS_STANDARD)
+
+// Warn about loop bodies that are suspiciously empty.
+CLANG_WARN_EMPTY_BODY = YES
+
+PRODUCT_BUNDLE_IDENTIFIER = com.sovcharenko.App // PRODUCT_BUNDLE_IDENTIFIER = com.sovcharenko.App-beta
+
+    ONLY_ACTIVE_ARCH[config=Debug][sdk=*][arch=*]    =  YES
+    ONLY_ACTIVE_ARCH[config=Release]                 =  NO
+
+//Invalid settings
+1FOO = BAR
+FOO
+FOO//BAR = FOOBAR
+FOO BAR
