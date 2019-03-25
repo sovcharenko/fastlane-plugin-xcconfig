@@ -1,15 +1,24 @@
 lane :test do
+  sh("echo 'PRODUCT_BUNDLE_IDENTIFIER = com.sovcharenko.app' > Configs/Test.xcconfig")
+
   # Read PRODUCT_BUNDLE_IDENTIFIER value from Configs/Release.xcconfig
   bundle_id = get_xcconfig_value(
-    path: 'fastlane/Configs/Release.xcconfig',
+    path: 'fastlane/Configs/Test.xcconfig',
     name: 'PRODUCT_BUNDLE_IDENTIFIER'
   )
   puts("Bundle ID: #{bundle_id}")
 
-  # Sets PRODUCT_BUNDLE_IDENTIFIER value to 'com.sovcharenko.App-beta' in Configs/Release.xcconfig
+  # Sets PRODUCT_NAME value to 'App' in Configs/Test.xcconfig
   set_xcconfig_value(
-    path: 'fastlane/Configs/Release.xcconfig',
-    name: 'PRODUCT_BUNDLE_IDENTIFIER',
-    value: 'com.sovcharenko.App-beta'
+    path: 'fastlane/Configs/Test.xcconfig',
+    name: 'PRODUCT_NAME',
+    value: 'App'
+  )
+
+  # Update PRODUCT_NAME value to 'Updated App' in Configs/Test.xcconfig
+  update_xcconfig_value(
+    path: 'fastlane/Configs/Test.xcconfig',
+    name: 'PRODUCT_NAME',
+    value: 'Updated App'
   )
 end
