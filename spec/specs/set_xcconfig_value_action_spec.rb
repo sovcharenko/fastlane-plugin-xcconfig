@@ -38,9 +38,19 @@ describe Fastlane::Actions::SetXcconfigValueAction do
       end
     end
 
-    it 'raises error when setting couldn\'t be found' do
-      expect { set_xcconfig_value('some_name', 'new_value') }.to raise_exception do |exception|
-        expect(exception.message).to start_with('Couldn\'t find \'some_name\' in')
+    it 'sets value' do
+      {
+        'EMPTY' => 'new_value',
+        'ARCHS' => 'nil',
+        'CLANG_WARN_EMPTY_BODY' => 'NO',
+        'PRODUCT_BUNDLE_IDENTIFIER' => 'com.sovcharenko.App-beta',
+        'ONLY_ACTIVE_ARCH[config=Debug][sdk=*][arch=*]' => 'NO',
+        'ONLY_ACTIVE_ARCH[config=Release]' => 'YES',
+        'NEW' => 'VALUE'
+      }.each do |key, value|
+        before, after = set_xcconfig_value(key, value)
+        expect(after.attributes[key]).to eq(value)
+        expect(after.attributes.except!(key)).to eq(before.attributes.except!(key))
       end
     end
 

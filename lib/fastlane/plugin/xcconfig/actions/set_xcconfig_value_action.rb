@@ -7,7 +7,7 @@ module Fastlane
       def self.run(params)
         path = File.expand_path(params[:path])
 
-        tmp_file = path + '.updated'
+        tmp_file = path + '.set'
 
         name = params[:name]
 
@@ -28,12 +28,13 @@ module Fastlane
                 file.write(name + ' = ' + value + "\n")
                 updated = true
               else
-                file.write(line)
+                file.write(line.strip + "\n")
               end
             end
+            file.write(name + ' = ' + value) unless updated
           end
 
-          Fastlane::UI.user_error!("Couldn't find '#{name}' in #{path}.") unless updated
+          Fastlane::UI.message("Set `#{name}` to `#{value}`")
 
           FileUtils.cp(tmp_file, path)
         ensure
@@ -42,11 +43,11 @@ module Fastlane
       end
 
       def self.description
-        'Updates value of a setting in xcconfig file.'
+        'Sets the value of a setting in xcconfig file.'
       end
 
       def self.authors
-        ["Sergii Ovcharenko"]
+        ["Sergii Ovcharenko", "steprescott"]
       end
 
       def self.return_value
@@ -54,7 +55,7 @@ module Fastlane
       end
 
       def self.details
-        'This action updates the value of a given setting in a given xcconfig file. Will throw an error if specified setting doesn\'t exist'
+        'This action sets the value of a given setting in a given xcconfig file.'
       end
 
       def self.available_options
