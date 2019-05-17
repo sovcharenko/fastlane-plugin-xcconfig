@@ -11,27 +11,36 @@ fastlane add_plugin xcconfig
 ```
 
 ## About xcconfig
-Adds 2 actions to fastlane to read and update xcconfig files.
+Adds 3 actions to fastlane to read and update xcconfig files.
 
 
 ## Example
 
 ```ruby
 lane :test do
-  
+
   # Read PRODUCT_BUNDLE_IDENTIFIER value from Configs/Release.xcconfig
   bundle_id = get_xcconfig_value(
-    path: 'fastlane/Configs/Release.xcconfig', 
+    path: 'fastlane/Configs/Release.xcconfig',
     name: 'PRODUCT_BUNDLE_IDENTIFIER'
   )
-  
-  # Sets PRODUCT_BUNDLE_IDENTIFIER value to 'com.sovcharenko.App-beta' in Configs/Release.xcconfig 
+
+  # Update PRODUCT_NAME value to 'Updated App' in Configs/Test.xcconfig
+  # Will fail if PRODUCT_NAME doesn't exist in Configs/Test.xcconfig
+  update_xcconfig_value(
+    path: 'fastlane/Test.xcconfig',
+    name: 'PRODUCT_NAME',
+    value: 'Updated App'
+  )
+
+  # Sets PRODUCT_BUNDLE_IDENTIFIER value to 'com.sovcharenko.App-beta' in Configs/Release.xcconfig
+  # PRODUCT_BUNDLE_IDENTIFIER will be added if it doesn't exist
   set_xcconfig_value(
-    path: 'fastlane/Configs/Release.xcconfig', 
-    name: 'PRODUCT_BUNDLE_IDENTIFIER', 
+    path: 'fastlane/Configs/Release.xcconfig',
+    name: 'PRODUCT_BUNDLE_IDENTIFIER',
     value: 'com.sovcharenko.App-beta'
   )
-  
+
 end
 
 ```
