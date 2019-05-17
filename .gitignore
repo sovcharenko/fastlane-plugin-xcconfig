@@ -8,6 +8,7 @@ Gemfile.lock
 /rdoc/
 fastlane/README.md
 fastlane/report.xml
+fastlane/Configs/Test.xcconfig
 coverage
 test-results
 

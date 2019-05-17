@@ -3,11 +3,11 @@ require_relative '../helper/xcconfig_helper'
 
 module Fastlane
   module Actions
-    class SetXcconfigValueAction < Action
+    class UpdateXcconfigValueAction < Action
       def self.run(params)
         path = File.expand_path(params[:path])
 
-        tmp_file = path + '.set'
+        tmp_file = path + '.updated'
 
         name = params[:name]
 
@@ -28,13 +28,13 @@ module Fastlane
                 file.write(name + ' = ' + value + "\n")
                 updated = true
               else
-                file.write(line.strip + "\n")
+                file.write(line)
               end
             end
-            file.write(name + ' = ' + value) unless updated
           end
 
-          Fastlane::UI.message("Set `#{name}` to `#{value}`")
+          Fastlane::UI.user_error!("Couldn't find '#{name}' in #{path}.") unless updated
+          Fastlane::UI.message("Updated `#{name}` to `#{value}`")
 
           FileUtils.cp(tmp_file, path)
         ensure
@@ -43,7 +43,7 @@ module Fastlane
       end
 
       def self.description
-        'Sets the value of a setting in xcconfig file.'
+        'Updates value of a setting in xcconfig file.'
       end
 
       def self.authors
@@ -55,24 +55,24 @@ module Fastlane
       end
 
       def self.details
-        'This action sets the value of a given setting in a given xcconfig file.'
+        'This action updates the value of a given setting in a given xcconfig file. Will throw an error if specified setting doesn\'t exist'
       end
 
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(key: :name,
-                                       env_name: "XCCP_SET_VALUE_PARAM_NAME",
-                                       description: "Name of key in xcconfig file",
+                                       env_name: "XCCP_UPDATE_VALUE_PARAM_NAME",
+                                       description: "Name of key in xcconfig file to update",
                                        type: String,
                                        optional: false),
           FastlaneCore::ConfigItem.new(key: :value,
-                                       env_name: "XCCP_SET_VALUE_PARAM_VALUE",
+                                       env_name: "XCCP_UPDATE_VALUE_PARAM_VALUE",
                                        description: "Value to set",
                                        skip_type_validation: true, # skipping type validation as fastlane converts YES/NO/true/false strings into booleans
                                        type: String,
                                        optional: false),
           FastlaneCore::ConfigItem.new(key: :path,
-                                       env_name: "XCCP_SET_VALUE_PARAM_PATH",
+                                       env_name: "XCCP_UPDATE_VALUE_PARAM_PATH",
                                        description: "Path to xcconfig file you want to update",
                                        type: String,
                                        optional: false,

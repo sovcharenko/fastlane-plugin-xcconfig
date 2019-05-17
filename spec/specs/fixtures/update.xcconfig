@@ -1,0 +1,21 @@
+// Import base application settings
+#include "../Base/Targets/Application.xcconfig"
+
+EMPTY =
+
+// Architectures to build
+ARCHS = $(ARCHS_STANDARD)
+
+// Warn about loop bodies that are suspiciously empty.
+CLANG_WARN_EMPTY_BODY = YES
+
+PRODUCT_BUNDLE_IDENTIFIER = com.sovcharenko.App // PRODUCT_BUNDLE_IDENTIFIER = com.sovcharenko.App-beta
+
+    ONLY_ACTIVE_ARCH[config=Debug][sdk=*][arch=*]    =  YES
+    ONLY_ACTIVE_ARCH[config=Release]                 =  NO
+
+//Invalid settings
+1FOO = BAR
+FOO
+FOO//BAR = FOOBAR
+FOO BAR

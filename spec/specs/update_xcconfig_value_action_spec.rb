@@ -8,9 +8,9 @@ class Hash
   end
 end
 
-describe Fastlane::Actions::SetXcconfigValueAction do
+describe Fastlane::Actions::UpdateXcconfigValueAction do
   describe '#run' do
-    def set_xcconfig_value(name, value, file = "set.xcconfig")
+    def update_xcconfig_value(name, value, file = "update.xcconfig")
       tmp_dir = Dir.mktmpdir('fastlane-plugin-xcconfig ')
       begin
         path = File.join(File.dirname(__FILE__), "fixtures/#{file}")
@@ -22,7 +22,7 @@ describe Fastlane::Actions::SetXcconfigValueAction do
           before_content = Xcodeproj::Config.new(path)
         end
 
-        SpecHelper::FastlaneHelper.execute_as_lane("set_xcconfig_value(path:'#{path}', name: '#{name}', value: '#{value}')")
+        SpecHelper::FastlaneHelper.execute_as_lane("update_xcconfig_value(path:'#{path}', name: '#{name}', value: '#{value}')")
 
         after_content = Xcodeproj::Config.new(Xcodeproj::Config.new(path))
 
@@ -33,24 +33,14 @@ describe Fastlane::Actions::SetXcconfigValueAction do
     end
 
     it 'raises error when file doesn\'t exist' do
-      expect { set_xcconfig_value('name1', 'new_value', 'non_existent_file.xcconfig') }.to raise_exception do |exception|
+      expect { update_xcconfig_value('name1', 'new_value', 'non_existent_file.xcconfig') }.to raise_exception do |exception|
         expect(exception.message).to start_with('Couldn\'t find xcconfig file at path')
       end
     end
 
-    it 'sets value' do
-      {
-        'EMPTY' => 'new_value',
-        'ARCHS' => 'nil',
-        'CLANG_WARN_EMPTY_BODY' => 'NO',
-        'PRODUCT_BUNDLE_IDENTIFIER' => 'com.sovcharenko.App-beta',
-        'ONLY_ACTIVE_ARCH[config=Debug][sdk=*][arch=*]' => 'NO',
-        'ONLY_ACTIVE_ARCH[config=Release]' => 'YES',
-        'NEW' => 'VALUE'
-      }.each do |key, value|
-        before, after = set_xcconfig_value(key, value)
-        expect(after.attributes[key]).to eq(value)
-        expect(after.attributes.except!(key)).to eq(before.attributes.except!(key))
+    it 'raises error when setting couldn\'t be found' do
+      expect { update_xcconfig_value('some_name', 'new_value') }.to raise_exception do |exception|
+        expect(exception.message).to start_with('Couldn\'t find \'some_name\' in')
       end
     end
 
@@ -63,7 +53,7 @@ describe Fastlane::Actions::SetXcconfigValueAction do
         'ONLY_ACTIVE_ARCH[config=Debug][sdk=*][arch=*]' => 'NO',
         'ONLY_ACTIVE_ARCH[config=Release]' => 'YES'
       }.each do |key, value|
-        before, after = set_xcconfig_value(key, value)
+        before, after = update_xcconfig_value(key, value)
         expect(after.attributes[key]).to eq(value)
         expect(after.attributes.except!(key)).to eq(before.attributes.except!(key))
       end
