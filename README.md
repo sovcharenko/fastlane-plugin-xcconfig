@@ -33,6 +33,15 @@ lane :test do
     value: 'Updated App'
   )
 
+  # Updates the value and hides it from being printed to the UI.
+  # Used to hide sensitive data from being displayed in logs.
+  update_xcconfig_value(
+    path: 'fastlane/Test.xcconfig',
+    name: 'PRODUCT_NAME',
+    value: 'Updated App Hidden',
+    mask_value: true
+  )
+
   # Sets PRODUCT_BUNDLE_IDENTIFIER value to 'com.sovcharenko.App-beta' in Configs/Release.xcconfig
   # PRODUCT_BUNDLE_IDENTIFIER will be added if it doesn't exist
   set_xcconfig_value(

@@ -15,8 +15,8 @@ lane :test do
     value: 'App'
   )
 
-   # Sets PRODUCT_NAME value to 'AppHidden' in Configs/Test.xcconfig and hides the value output
-   set_xcconfig_value(
+  # Sets PRODUCT_NAME value to 'AppHidden' in Configs/Test.xcconfig and hides the value output
+  set_xcconfig_value(
     path: 'fastlane/Test.xcconfig',
     name: 'PRODUCT_NAME',
     value: 'AppHidden',
@@ -28,5 +28,13 @@ lane :test do
     path: 'fastlane/Test.xcconfig',
     name: 'PRODUCT_NAME',
     value: 'Updated App'
+  )
+
+  # Update PRODUCT_NAME value to 'Updated App Hidden' in Configs/Test.xcconfig and hides the value output
+  update_xcconfig_value(
+    path: 'fastlane/Test.xcconfig',
+    name: 'PRODUCT_NAME',
+    value: 'Updated App Hidden',
+    mask_value: true
   )
 end
