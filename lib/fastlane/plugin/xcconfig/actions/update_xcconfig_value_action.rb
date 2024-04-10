@@ -84,7 +84,7 @@ module Fastlane
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))
                                        end),
           FastlaneCore::ConfigItem.new(key: :mask_value,
-                                        env_name: "XCCP_SET_VALUE_PARAM_MASK_VALUE",
+                                        env_name: "XCCP_UPDATE_VALUE_PARAM_MASK_VALUE",
                                         description: "Masks the value from being printed to the console",
                                         optional: true,
                                         is_string: false,
