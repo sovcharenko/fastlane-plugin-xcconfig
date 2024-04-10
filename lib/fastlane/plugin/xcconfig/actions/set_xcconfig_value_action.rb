@@ -34,8 +34,8 @@ module Fastlane
             file.write(name + ' = ' + value) unless updated
           end
 
-          if params[:hide_value_output]
-            Fastlane::UI.message("Value updated for key: `#{name}`")
+          if params[:mask_value]
+            Fastlane::UI.message("Set `#{name}` to `****`")
           else
             Fastlane::UI.message("Set `#{name}` to `#{value}`")
           end
@@ -83,9 +83,9 @@ module Fastlane
                                        verify_block: proc do |value|
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))
                                        end),
-          FastlaneCore::ConfigItem.new(key: :hide_value_output,
-                                        env_name: "XCCP_SET_VALUE_PARAM_HIDE_VALUE_OUTPUT",
-                                        description: "Stops the outuput of the value being printed to the console",
+          FastlaneCore::ConfigItem.new(key: :mask_value,
+                                        env_name: "XCCP_SET_VALUE_PARAM_MASK_VALUE",
+                                        description: "Masks the value from being printed to the console",
                                         optional: true,
                                         is_string: false,
                                         default_value: false)

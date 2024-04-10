@@ -47,7 +47,7 @@ lane :test do
     path: 'fastlane/Configs/Release.xcconfig',
     name: 'PRODUCT_BUNDLE_IDENTIFIER',
     value: 'com.sovcharenko.App-beta',
-    hide_value_output: true
+    mask_value: true
   )
 
 end
