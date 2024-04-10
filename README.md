@@ -41,6 +41,15 @@ lane :test do
     value: 'com.sovcharenko.App-beta'
   )
 
+  # Sets the value and hides it from printed to the UI.
+  # Used to hide sensitive data from being displayed in logs.
+  set_xcconfig_value(
+    path: 'fastlane/Configs/Release.xcconfig',
+    name: 'PRODUCT_BUNDLE_IDENTIFIER',
+    value: 'com.sovcharenko.App-beta',
+    hide_value_output: true
+  )
+
 end
 
 ```
