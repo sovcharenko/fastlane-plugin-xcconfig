@@ -1,4 +1,5 @@
 require 'fastlane/action'
+require 'fastlane_core/configuration/config_item'
 require_relative '../helper/xcconfig_helper'
 
 module Fastlane
@@ -10,14 +11,8 @@ module Fastlane
         tmp_file = "#{path}.updated"
 
         name = params[:name]
+        value = Helper::XcconfigHelper.coerce_value(params[:value])
 
-        # Revert fastlane's auto conversion of strings into booleans
-        # https://github.com/fastlane/fastlane/pull/11923
-        value = if [true, false].include?(params[:value])
-                  params[:value] ? 'YES' : 'NO'
-                else
-                  params[:value].strip
-                end
         begin
           updated = false
 

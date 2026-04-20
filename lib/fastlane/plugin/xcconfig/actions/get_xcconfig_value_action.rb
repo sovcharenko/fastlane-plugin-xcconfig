@@ -1,4 +1,5 @@
 require 'fastlane/action'
+require 'fastlane_core/configuration/config_item'
 require_relative '../helper/xcconfig_helper'
 
 module Fastlane

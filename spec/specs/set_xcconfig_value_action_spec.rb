@@ -10,7 +10,7 @@ end
 
 describe Fastlane::Actions::SetXcconfigValueAction do
   describe '#run' do
-    def set_xcconfig_value(name, value, file = "set.xcconfig", mask_value = false)
+    def set_xcconfig_value(name, value, file = "set.xcconfig", mask_value: false)
       tmp_dir = Dir.mktmpdir('fastlane-plugin-xcconfig ')
       begin
         path = File.join(File.dirname(__FILE__), "fixtures/#{file}")

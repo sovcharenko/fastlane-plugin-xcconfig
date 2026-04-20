@@ -70,7 +70,6 @@ Require/MissingRequireStatement:
   - "**/Rakefile"
   - fastlane/**/*
   - supply/**/*
-  - "**/lib/fastlane/plugin/**/*"
 Layout/FirstHashElementIndentation:
   Enabled: false
 Layout/HashAlignment:
@@ -121,8 +120,6 @@ Layout/LineLength:
   Max: 370
 Metrics/ParameterLists:
   Max: 17
-Metrics/PerceivedComplexity:
-  Max: 18
 Style/GuardClause:
   Enabled: false
 Style/StringLiterals:
@@ -167,9 +164,6 @@ Style/IfInsideElse:
   Enabled: false
 Style/CollectionMethods:
   Enabled: false
-Style/OptionalBooleanParameter:
-  Exclude:
-  - "**/spec/**/*"
 Style/MethodCallWithArgsParentheses:
   Enabled: true
   AllowedMethods:
