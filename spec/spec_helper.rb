@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+$LOAD_PATH.unshift(File.expand_path('../lib', __dir__))
 
 require 'simplecov'
 
@@ -14,6 +14,6 @@ require 'fastlane/plugin/xcconfig' # import the actual plugin
 
 Fastlane.load_actions # load other actions (in case your plugin calls other actions or shared values)
 
-Dir[File.expand_path('./support/*.rb', File.dirname(__FILE__))].each do |file|
+Dir[File.expand_path('./support/*.rb', File.dirname(__FILE__))].sort.each do |file|
   require file
 end

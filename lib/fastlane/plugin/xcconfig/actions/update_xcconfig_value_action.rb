@@ -1,4 +1,5 @@
 require 'fastlane/action'
+require 'fastlane_core/configuration/config_item'
 require_relative '../helper/xcconfig_helper'
 
 module Fastlane
@@ -7,17 +8,11 @@ module Fastlane
       def self.run(params)
         path = File.expand_path(params[:path])
 
-        tmp_file = path + '.updated'
+        tmp_file = "#{path}.updated"
 
         name = params[:name]
+        value = Helper::XcconfigHelper.coerce_value(params[:value])
 
-        # Revert fastlane's auto conversion of strings into booleans
-        # https://github.com/fastlane/fastlane/pull/11923
-        value = if [true, false].include?(params[:value])
-                  params[:value] ? 'YES' : 'NO'
-                else
-                  params[:value].strip
-                end
         begin
           updated = false
 
@@ -25,7 +20,7 @@ module Fastlane
             File.open(path).each do |line|
               xcname, = Helper::XcconfigHelper.parse_xcconfig_name_value_line(line)
               if xcname == name
-                file.write(name + ' = ' + value + "\n")
+                file.write("#{name} = #{value}\n")
                 updated = true
               else
                 file.write(line)
@@ -84,11 +79,11 @@ module Fastlane
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))
                                        end),
           FastlaneCore::ConfigItem.new(key: :mask_value,
-                                        env_name: "XCCP_UPDATE_VALUE_PARAM_MASK_VALUE",
-                                        description: "Masks the value from being printed to the console",
-                                        optional: true,
-                                        is_string: false,
-                                        default_value: false)
+                                       env_name: "XCCP_UPDATE_VALUE_PARAM_MASK_VALUE",
+                                       description: "Masks the value from being printed to the console",
+                                       optional: true,
+                                       is_string: false,
+                                       default_value: false)
         ]
       end
 
