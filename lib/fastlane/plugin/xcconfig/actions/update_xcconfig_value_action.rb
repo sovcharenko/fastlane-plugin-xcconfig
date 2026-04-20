@@ -7,7 +7,7 @@ module Fastlane
       def self.run(params)
         path = File.expand_path(params[:path])
 
-        tmp_file = path + '.updated'
+        tmp_file = "#{path}.updated"
 
         name = params[:name]
 
@@ -25,7 +25,7 @@ module Fastlane
             File.open(path).each do |line|
               xcname, = Helper::XcconfigHelper.parse_xcconfig_name_value_line(line)
               if xcname == name
-                file.write(name + ' = ' + value + "\n")
+                file.write("#{name} = #{value}\n")
                 updated = true
               else
                 file.write(line)
@@ -84,11 +84,11 @@ module Fastlane
                                          UI.user_error!("Couldn't find xcconfig file at path '#{value}'") unless File.exist?(File.expand_path(value))
                                        end),
           FastlaneCore::ConfigItem.new(key: :mask_value,
-                                        env_name: "XCCP_UPDATE_VALUE_PARAM_MASK_VALUE",
-                                        description: "Masks the value from being printed to the console",
-                                        optional: true,
-                                        is_string: false,
-                                        default_value: false)
+                                       env_name: "XCCP_UPDATE_VALUE_PARAM_MASK_VALUE",
+                                       description: "Masks the value from being printed to the console",
+                                       optional: true,
+                                       is_string: false,
+                                       default_value: false)
         ]
       end
 

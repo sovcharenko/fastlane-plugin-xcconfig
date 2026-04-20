@@ -1,4 +1,27 @@
 ---
+require:
+- rubocop/require_tools
+- rubocop-performance
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Include:
+  - "**/*.rb"
+  - "**/*file"
+  - "**/*.gemspec"
+  - "*/lib/assets/*Template"
+  - "*/lib/assets/*TemplateAndroid"
+  Exclude:
+  - "**/lib/assets/custom_action_template.rb"
+  - "./vendor/**/*"
+  - "**/lib/assets/DefaultFastfileTemplate"
+  - "**/lib/assets/MatchfileTemplate"
+  - "**/spec/fixtures/broken_files/broken_file.rb"
+  - "**/*.provisionprofile"
+Lint/ErbNewArguments:
+  Enabled: false
+Style/SlicingWithRange:
+  Enabled: false
 Style/MultipleComparison:
   Enabled: false
 Style/PercentLiteralDelimiters:
@@ -19,19 +42,17 @@ Metrics/BlockLength:
   Enabled: false
 Metrics/ModuleLength:
   Enabled: false
-Style/VariableNumber:
+Naming/VariableNumber:
   Enabled: false
-Style/MethodMissing:
+Style/MissingRespondToMissing:
   Enabled: false
-MultilineBlockChain:
+Style/MultilineBlockChain:
   Enabled: false
 Style/NumericLiteralPrefix:
   Enabled: false
 Style/TernaryParentheses:
   Enabled: false
 Style/EmptyMethod:
-  Enabled: false
-Style/BracesAroundHashParameters:
   Enabled: false
 Lint/UselessAssignment:
   Exclude:
@@ -41,6 +62,7 @@ Require/MissingRequireStatement:
   - "**/spec/**/*.rb"
   - "**/spec_helper.rb"
   - spaceship/lib/spaceship/babosa_fix.rb
+  - fastlane_core/lib/fastlane_core/ui/disable_colors.rb
   - "**/Fastfile"
   - "**/*.gemspec"
   - rakelib/**/*
@@ -48,9 +70,10 @@ Require/MissingRequireStatement:
   - "**/Rakefile"
   - fastlane/**/*
   - supply/**/*
-Layout/IndentHash:
+  - "**/lib/fastlane/plugin/**/*"
+Layout/FirstHashElementIndentation:
   Enabled: false
-Layout/AlignHash:
+Layout/HashAlignment:
   Enabled: false
 Layout/DotPosition:
   Enabled: false
@@ -58,12 +81,12 @@ Style/DoubleNegation:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Enabled: false
 Style/MixinGrouping:
   Exclude:
   - "**/spec/**/*"
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Enabled: false
 Lint/UnusedBlockArgument:
   Enabled: false
@@ -90,10 +113,11 @@ Style/RedundantReturn:
 Style/IfUnlessModifier:
   Enabled: false
 Style/AndOr:
-  Enabled: false
+  Enabled: true
+  EnforcedStyle: conditionals
 Metrics/ClassLength:
   Max: 320
-Metrics/LineLength:
+Layout/LineLength:
   Max: 370
 Metrics/ParameterLists:
   Max: 17
@@ -102,6 +126,8 @@ Metrics/PerceivedComplexity:
 Style/GuardClause:
   Enabled: false
 Style/StringLiterals:
+  Enabled: false
+Style/QuotedSymbols:
   Enabled: false
 Style/ConditionalAssignment:
   Enabled: false
@@ -112,21 +138,14 @@ Lint/UnusedMethodArgument:
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
   - "**/spec/**/*"
-Style/PredicateName:
+Naming/PredicateName:
   Enabled: false
 Style/PerlBackrefs:
   Enabled: false
 Layout/SpaceAroundOperators:
   Exclude:
   - "**/spec/actions_specs/xcodebuild_spec.rb"
-AllCops:
-  TargetRubyVersion: 2.0
-  Include:
-  - "**/fastlane/Fastfile"
-  Exclude:
-  - "**/lib/assets/custom_action_template.rb"
-  - "./vendor/**/*"
-Style/FileName:
+Naming/FileName:
   Exclude:
   - "**/Dangerfile"
   - "**/Brewfile"
@@ -136,6 +155,7 @@ Style/FileName:
   - "**/Fastfile"
   - "**/Deliverfile"
   - "**/Snapfile"
+  - "**/Pluginfile"
   - "**/*.gemspec"
 Style/Documentation:
   Enabled: false
@@ -147,24 +167,36 @@ Style/IfInsideElse:
   Enabled: false
 Style/CollectionMethods:
   Enabled: false
-CrossPlatform/ForkUsage:
+Style/OptionalBooleanParameter:
   Exclude:
-  - "**/plugins/template/**/*"
+  - "**/spec/**/*"
 Style/MethodCallWithArgsParentheses:
   Enabled: true
-  IgnoredMethods:
+  AllowedMethods:
   - require
   - require_relative
+  - fastlane_require
   - gem
   - program
   - command
   - raise
   - attr_accessor
   - attr_reader
+  - desc
   - lane
+  - private_lane
+  - platform
   - to
+  - not_to
   - describe
   - it
+  - be
   - context
   - before
   - after
+Bundler/OrderedGems:
+  Enabled: true
+  TreatCommentsAsGroupSeparators: false
+Gemspec/DevelopmentDependencies:
+  Enabled: true
+  EnforcedStyle: Gemfile
